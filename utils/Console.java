@@ -1,13 +1,16 @@
 package utils;
 
+import java.util.Scanner;
+
 public class Console {
 
-    public static int width = 60;
+    public static int width = 80;
+    public static int spacing = 3;
 
     public static void Clear() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        printBottomBorder();
+        System.out.println("\n\n\n");
         printTopBorder();
-
         // │─┌ └┘░▒▓┐
     }
 
@@ -29,22 +32,55 @@ public class Console {
         }
     }
 
-    private static void printTopBorder() {
-        System.out.print("░░░░░");
-        printAllLine("░");
-        System.out.println("░░░░░");
+    public static String getString(String Prompt, Scanner scan) {
+        printBorderOut();
 
-        System.out.print("░░▒▒▒");
-        printAllLine("▒");
-        System.out.println("▒▒▒░░");
-        /*
-         * System.out.println("▓░▒");
-         * printAllLine("▓");
-         * System.out.println("▓▒░");
-         */
-        System.out.print("░▒▓┌─");
+        printBorderOut();
+    }
+
+    private static void printTopBorder() {
+        System.out.print("░░░░" + spacing("░"));
+        printAllLine("░");
+        System.out.println(spacing("░") + "░░░░");
+
+        System.out.print("░░▒▒" + spacing("▓"));
+        printAllLine("▓");
+        System.out.println(spacing("▓") + "▒▒░░");
+
+        System.out.print("░▒▓┌" + spacing("─"));
         printAllLine("─");
-        System.out.println("─┐▓▒░");
+        System.out.println(spacing("─") + "┐▓▒░");
+
+        for (int i = 0; i < spacing; i += 2) {
+            println(" ");
+        }
+
+    }
+
+    private static void printBottomBorder() {
+        for (int i = 0; i < spacing; i += 2) {
+            println(" ");
+        }
+
+        System.out.print("░▒▓└" + spacing("─"));
+        printAllLine("─");
+        System.out.println(spacing("─") + "┘▓▒░");
+
+        System.out.print("░░▒▒" + spacing("▓"));
+        printAllLine("▓");
+        System.out.println(spacing("▓") + "▒▒░░");
+
+        System.out.print("░░░░" + spacing("░"));
+        printAllLine("░");
+        System.out.println(spacing("░") + "░░░░");
+    }
+
+    private static String spacing(String s) {
+        String r = "";
+        for (int i = 0; i < spacing; i++) {
+            r += s;
+        }
+        return r;
     }
 
     private static void printAllLine(String s) {
@@ -56,11 +92,11 @@ public class Console {
 
     private static void printBorderIn() {
 
-        System.out.print("░▒▓│ ");
+        System.out.print("░▒▓│" + spacing(" "));
     }
 
     private static void printBorderOut() {
 
-        System.out.println(" │▓▒░");
+        System.out.println(spacing(" ") + "│▓▒░");
     }
 }
