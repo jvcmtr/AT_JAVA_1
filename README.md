@@ -5,7 +5,6 @@
 
 -- O jogo é baseado em turnos e consiste em simular batalhas entre personagens hérois e monstros.
 
-
 -- Seu jogo consiste em 2 programas.
 
 -- O primeiro é o principal onde toda a simulação de batalhas ocorrerá.
