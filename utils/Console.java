@@ -1,102 +1,205 @@
 package utils;
-
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class Console {
+    public int Width = 80;
+    public int Spacing = 3;
+    public String Embelishment = " --== ";
 
-    public static int width = 80;
-    public static int spacing = 3;
+    public Console(int width, int spacing){
+        Spacing = spacing;
+        Width = width;
+    }
 
-    public static void Clear() {
+    public Console(int width){
+        Width = width;
+    }
+
+    public Console(String spacing){
+        Spacing = spacing.length();
+    }
+
+
+
+    public Console Clear() {
         printBottomBorder();
         System.out.println("\n\n\n");
         printTopBorder();
         // │─┌ └┘░▒▓┐
+        return this;
     }
 
-    public static void println(String s) {
+    public static void TrueClear(){
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }
 
-        printBorderIn();
-        for (int i = 0; i < width; i++) {
-            if (i < s.length()) {
-                System.out.print(s.charAt(i));
-            } else {
+    public Console Open(){
+        printTopBorder();
+        return this;
+    }
+
+    public Console Close(){
+        printBottomBorder();
+        return this;
+    }
+
+    public Console println(String s) {
+
+        forLinesIn(s, (ln) ->{
+            printBorderIn();
+            System.out.print(ln);
+            int remainingSpace = Width-ln.length();
+            for (int i = 0; i < remainingSpace; i++) {
                 System.out.print(" ");
             }
-        }
-        printBorderOut();
+            printBorderOut();           
+        });
+        return this;
+    }
 
-        if (s.length() > width) {
-            String overflow = s.substring(width);
-            println(overflow);
+    public Console printTitle(String title){
+
+        String[] lines = GetTitleLines(title);
+        for (String s : lines) {
+            println(s);
+        }
+
+        println("");
+        return this;
+    }
+
+
+
+    private String Centralize(String s){
+        int midPoint = (int) ( s.length()) /2;
+        int d = ((int) Width/2) - midPoint;
+        for (int i = 0; i < d; i++) {
+            s = " "+s;
+        }
+        return s;
+    }
+
+    private void forLinesIn(String s, Consumer<String> lambda){
+        String[] ar = splitLines(s, Width);
+        for (String line : ar) {
+            lambda.accept(line);
         }
     }
 
-    public static String getString(String Prompt, Scanner scan) {
-        printBorderOut();
+    private static String[] splitLines(String s, int width){
+        if (s.length() <= width){
+            return new String[]{s};
+        }
 
-        printBorderOut();
+        String line = "";
+        int split = width;
+        for (int i = width; i >= 0; i--) {
+            if(s.charAt(i)==' '){
+                split = i;
+                break;
+            }
+        }
+        line = s.substring(0, split);
+        String[] remain = splitLines(s.substring(split), width);
+
+        String[] r = new String[ 1+ remain.length];
+        r[0] = line;
+        for (int i = 1; i < r.length; i++) {
+            r[i] = remain[i-1];
+        }
+        return r;
     }
 
-    private static void printTopBorder() {
-        System.out.print("░░░░" + spacing("░"));
+    private void printTopBorder() {
+        System.out.print("░░░░" + Spacing("░"));
         printAllLine("░");
-        System.out.println(spacing("░") + "░░░░");
+        System.out.println(Spacing("░") + "░░░░");
 
-        System.out.print("░░▒▒" + spacing("▓"));
+        System.out.print("░░▒▒" + Spacing("▓"));
         printAllLine("▓");
-        System.out.println(spacing("▓") + "▒▒░░");
+        System.out.println(Spacing("▓") + "▒▒░░");
 
-        System.out.print("░▒▓┌" + spacing("─"));
+        System.out.print("░▒▓┌" + Spacing("─"));
         printAllLine("─");
-        System.out.println(spacing("─") + "┐▓▒░");
+        System.out.println(Spacing("─") + "┐▓▒░");
 
-        for (int i = 0; i < spacing; i += 2) {
+        for (int i = 0; i < Spacing; i += 2) {
             println(" ");
         }
 
     }
 
-    private static void printBottomBorder() {
-        for (int i = 0; i < spacing; i += 2) {
+    private void printBottomBorder() {
+        for (int i = 0; i < Spacing; i += 2) {
             println(" ");
         }
 
-        System.out.print("░▒▓└" + spacing("─"));
+        System.out.print("░▒▓└" + Spacing("─"));
         printAllLine("─");
-        System.out.println(spacing("─") + "┘▓▒░");
+        System.out.println(Spacing("─") + "┘▓▒░");
 
-        System.out.print("░░▒▒" + spacing("▓"));
+        System.out.print("░░▒▒" + Spacing("▓"));
         printAllLine("▓");
-        System.out.println(spacing("▓") + "▒▒░░");
+        System.out.println(Spacing("▓") + "▒▒░░");
 
-        System.out.print("░░░░" + spacing("░"));
+        System.out.print("░░░░" + Spacing("░"));
         printAllLine("░");
-        System.out.println(spacing("░") + "░░░░");
+        System.out.println(Spacing("░") + "░░░░");
     }
 
-    private static String spacing(String s) {
+    private String Spacing(String s) {
         String r = "";
-        for (int i = 0; i < spacing; i++) {
+        for (int i = 0; i < Spacing; i++) {
             r += s;
         }
         return r;
     }
 
-    private static void printAllLine(String s) {
-        int l = width / s.length();
+    private void printAllLine(String s) {
+        int l = Width / s.length();
         for (int i = 0; i < l; i++) {
             System.out.print(s);
         }
     }
 
-    private static void printBorderIn() {
+    private void printBorderIn() {
 
-        System.out.print("░▒▓│" + spacing(" "));
+        System.out.print("░▒▓│" + Spacing(" "));
     }
 
-    private static void printBorderOut() {
+    private void printBorderOut() {
 
-        System.out.println(spacing(" ") + "│▓▒░");
+        System.out.println(Spacing(" ") + "│▓▒░");
+    }
+
+    private String[] GetTitleLines(String s){
+        String title = "";
+        for (char c : s.toUpperCase().toCharArray()) {
+            title += "a" + c;
+        }
+        
+        title += "a";
+        int d = Width-(Embelishment.length()*2) ;
+        String[] split = splitLines(title, d );
+
+        for (int i = 0; i < split.length; i++) {
+            String line = split[i];
+            line = Embelishment + line + reverseString(Embelishment);
+            line = line.replace("a", " ");
+            line = Centralize(line);
+            split[i] = line;
+        }
+        
+        return split;
+    }
+
+    private String reverseString(String s){
+        String r = "";
+        int len = s.length();
+        for (int i = 1; i <= len; i++) {  
+            r += s.charAt(len-i);
+        }
+        return r;
     }
 }
