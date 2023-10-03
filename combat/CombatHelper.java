@@ -9,7 +9,6 @@ import combat.builds.Kobold;
 import combat.builds.Orc;
 import combat.builds.MortoVivo;
 import combat.builds.Paladin;
-import utils.Dice;
 
 public class CombatHelper {
     public static BaseClass[] availableMonsters(){
@@ -34,7 +33,6 @@ public class CombatHelper {
         int i = r.nextInt(m.length);
         return m[i];
     }
-
 
     public static BaseClass[] getIniciativa(BaseClass player, BaseClass monstro){
         int pi = player.getIniciativa();

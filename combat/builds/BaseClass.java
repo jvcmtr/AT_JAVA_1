@@ -20,11 +20,11 @@ public abstract class BaseClass {
     }
 
     public void attack(BaseClass target){
-        target.defend();
+        target.takeDamage( FdD.roll() );
     }
 
-    public void defend(){
-
+    public void takeDamage(int dmg){
+        PdV -= dmg;
     };
 
     public int getIniciativa(){
