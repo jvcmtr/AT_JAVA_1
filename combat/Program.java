@@ -11,11 +11,7 @@ import utils.Console;
 public class Program {
     public static void main(String args[]) {
         Scanner scan = new Scanner(System.in);
-        BaseClass[] classes = new BaseClass[]{
-            new Barbarian(),
-            new Fighter(),
-            new Paladin()
-        };
+        BaseClass[] classes = CombatHelper.availableClasses();
         Console out = new Console(90);
         Character boneco = InitCharacter(classes, scan, out);
                 
@@ -23,13 +19,34 @@ public class Program {
     }
 
     public static String runRandomBattle(Character c){
+        BaseClass[] criaturas = CombatHelper.getIniciativa(c.getHeroi(), CombatHelper.getRandomMonster());
 
-        return "";
+        while(true){
+            if(criaturas[0].getFatorDeAtaque() > criaturas[1].getFatorDeDefesa())
+                criaturas[0].attack( criaturas[1] );
+
+            if(criaturas[1].isDead())
+                break;
+
+            criaturas = new BaseClass[]{
+                criaturas[1], 
+                criaturas[0]
+            };
+        }
+
+        if(criaturas[0] == c.getHeroi()){
+            return "";
+        }
+
+
+        return "" ;  
     }
 
     public static void AddToLog(String s){
 
     }
+
+    
 
     public static Character InitCharacter(BaseClass[] classes, Scanner scan, Console out ){
         boolean run = false;
