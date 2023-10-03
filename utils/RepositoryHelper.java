@@ -1,4 +1,4 @@
-package combat;
+package utils;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public abstract class RepositoryHelper {
     static private String BasePath = "temp";
 
-    static void Save(String info, String filename){
+    public static void Save(String info, String filename){
         Path path = Paths.get(BasePath, filename).toAbsolutePath();
         
 

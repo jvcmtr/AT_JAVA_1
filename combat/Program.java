@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import combat.builds.BaseClass;
 import utils.Console;
+import utils.RepositoryHelper;
 
 public class Program {
     public static void main(String args[]) {
@@ -45,7 +46,7 @@ public class Program {
     }
 
     public static void AddToLog(String s, Character c){
-        String filename = c.getNickname()+"csv";
+        String filename = c.getNickname()+".csv";
         RepositoryHelper.Save(s, filename);
     }
 
