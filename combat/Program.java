@@ -22,6 +22,15 @@ public class Program {
 
     }
 
+    public static String runRandomBattle(Character c){
+
+        return "";
+    }
+
+    public static void AddToLog(String s){
+
+    }
+
     public static Character InitCharacter(BaseClass[] classes, Scanner scan, Console out ){
         boolean run = false;
         String nickname = "";
@@ -70,8 +79,8 @@ public class Program {
                     .printCentralized("+ Confirme seu personagem :")
                     .println("")
                     .println("    nickname : " + nickname)
-                    .println("    classe : " + charClass.getName())
-                    .println("    atributos : " + charClass.getDetails() )
+                    .println("    classe : ")
+                    .println("     "+ charClass.getDetails() )
                     .println("")
                     .printCentralized("[y] OK  /  [n] VOLTAR")
                     .Close();
@@ -85,6 +94,7 @@ public class Program {
             run = inp.equals("y");
         }
 
-        Character c = new Character(nickname, charClass)
+        Character c = new Character(nickname, charClass);
+        return c;
     }
 }

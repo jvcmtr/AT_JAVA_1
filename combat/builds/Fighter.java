@@ -1,13 +1,16 @@
 package combat.builds;
 
+import utils.Dice;
+
 public class Fighter extends BaseClass {
-    @Override
-    public String getDetails() {
-        return "i am a Fighter";
+
+    public Fighter(){
+        this.name = "Guerreiro";
+        this.FdD = new Dice(2, 4);  
+        this.PdV = 12;
+        this.For = 4;
+        this.Def =3;
+        this.Agi =3;
     }
 
-    @Override
-    public String getName() {
-        return "Fighter";
-    }
 }
