@@ -1,9 +1,12 @@
 package combat.builds;
 
-abstract class BaseClass {
+public abstract class BaseClass {
 
     public BaseClass() {
 
     }
+
+    public abstract String getDetails();
+    public abstract String getName();
 
 }

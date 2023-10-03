@@ -1,5 +1,4 @@
 package utils;
-import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Console {
@@ -23,7 +22,6 @@ public class Console {
 
 
     public Console Clear() {
-        printBottomBorder();
         System.out.println("\n\n\n");
         printTopBorder();
         // │─┌ └┘░▒▓┐
@@ -69,6 +67,19 @@ public class Console {
         return this;
     }
 
+    public Console printCentralized(String s){
+        forLinesIn(s, (ln) ->{
+            printBorderIn();
+            ln = Centralize(ln);
+            System.out.print(ln);
+            int remainingSpace = Width-ln.length();
+            for (int i = 0; i < remainingSpace; i++) {
+                System.out.print(" ");
+            }
+            printBorderOut();           
+        });
+        return this;
+    }
 
 
     private String Centralize(String s){
@@ -190,7 +201,7 @@ public class Console {
             line = Centralize(line);
             split[i] = line;
         }
-        
+
         return split;
     }
 
