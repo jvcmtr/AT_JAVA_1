@@ -41,7 +41,7 @@ public class UserLogs {
                 nome = k;
             }
         }
-        return nome + "   (" + value + "x)";
+        return nome + " (" + value + "x)";
     }
 
     public String getMostroMaisEnfrentado(){
@@ -88,7 +88,7 @@ public class UserLogs {
                 vitorias.add(0);
         });
 
-        return "Vitorias: " + vitorias.size() + "   / Derrotas: " + Logs.length;
+        return " Vitorias: " + vitorias.size() + "     Derrotas: " + Logs.length;
     }
 
     public String getDiaMaisJogado(){
@@ -111,7 +111,7 @@ public class UserLogs {
                 nome = k;
             }
         }
-        return nome + "   ( " + value + " partidas )";
+        return nome + " ( " + value + " partidas )";
     }
 
     public String getPontosPorHeroi( String heroi ){
@@ -135,6 +135,67 @@ public class UserLogs {
         return "Vitorias: " + vitorias.size() + "   / Derrotas: " + Logs.length;
     }
 
+    public String MostroMaisDerrotadoPorHeroi( String heroi){
+        Map<String, Integer> monstros = new HashMap<String, Integer>();
+        forEachHeroi(heroi, (log)->{
+            if(log.isGanhou()){
+                String m = log.getMonstro();
+
+                if( monstros.containsKey(m) )
+                    monstros.put(m, monstros.get(m)+1);
+                else
+                    monstros.put(m, 1);
+            }
+        });
+
+        String nome = "";
+        int value = 0;
+        
+        for( var k : monstros.keySet()){
+            if(monstros.get(k) > value){
+                value = monstros.get(k);
+                nome = k;
+            }
+        }
+        return nome + " (" + value + " vitorias)";
+    }
+
+    public String MostroMaisVitoriosoContraHeroi( String heroi){
+        Map<String, Integer> monstros = new HashMap<String, Integer>();
+        forEachHeroi(heroi, (log)->{
+            if(!log.isGanhou()){
+                String m = log.getMonstro();
+
+                if( monstros.containsKey(m) )
+                    monstros.put(m, monstros.get(m)+1);
+                else
+                    monstros.put(m, 1);
+            }
+        });
+
+        String nome = "";
+        int value = 0;
+        
+        for( var k : monstros.keySet()){
+            if(monstros.get(k) > value){
+                value = monstros.get(k);
+                nome = k;
+            }
+        }
+        return nome + " (" + value + " derrotas)";
+    }
+
+    public String[] getHeroisJogados(){
+        ArrayList<String> herois = new ArrayList<>();
+        forEachLog((log)->{
+            if (!herois.contains(log.getHeroi())){
+                herois.add(log.getHeroi());
+            }
+        });
+
+        return herois.toArray(new String[herois.size()]);
+    }
+
     private void forEachLog(Consumer<BattleLog> c){
         for (BattleLog battleLog : Logs) {
             c.accept(battleLog);
@@ -150,6 +211,9 @@ public class UserLogs {
     }
 
     private int Pontos(BattleLog b){
+        if (!b.isGanhou()){
+            return 0;
+        }
         return 100-b.getRodadas();
     }
 }

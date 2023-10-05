@@ -11,12 +11,24 @@ import utils.Utils;
 public class Program {
     public static void main(String[] args){
         
+        String input = "";
         Scanner scan = new Scanner(System.in);
         Console out = new Console(90);
 
-        UserLogs userLog = getUserLog(out, scan);
-        displayLog(userLog, out, scan);
-        
+        while(true){
+
+            UserLogs userLog = getUserLog(out, scan);
+            displayLog(userLog, out, scan);
+
+            out.Open()
+                .printCentralized("Digite ESC para sair")
+                .Close();
+            input = scan.nextLine();
+            out.TrueClear();
+
+            if(input.equals("ESC"))
+                break;
+        }
     }
 
     private static UserLogs getUserLog(Console out, Scanner scan){
@@ -28,7 +40,7 @@ public class Program {
         
         while (!done){
             out.Clear()
-                .printTitle("Veja seu histtorico de combate ")
+                .printTitle("Veja seu historico de combate ")
                 .println("")
                 .println("")
                 .println(" Digite o seu nickname : _ _ _")
@@ -48,12 +60,36 @@ public class Program {
     }
 
     public static void displayLog(UserLogs log, Console out, Scanner scan){
+            String[] herois = log.getHeroisJogados();
+
             out.Clear()
                 .printTitle("Bem vindo " + log.getNickname())
-                .println("Heroi mais jogado : " + log.getHeroiMaisJogado())
-                .println("Monstro mais Enfrentado : " + log.getHeroiMaisJogado())
+                .printCentralized("PONTOS : " + log.getPontosTotais())
+                .printCentralized(" "+log.getIndiceDeVitoria())
                 .println("")
-                .Close();
+                .println("* Nickname  . . . . . . . . . . " + log.getNickname())
+                .println("* Heroi mais jogado . . . . . . " + log.getHeroiMaisJogado())
+                .println("* Monstro mais Enfrentado . . . " + log.getMostroMaisEnfrentado())
+                .println("* Dia mais jogado . . . . . . . " + log.getDiaMaisJogado())
+                .println("")
+                .println("")
+                .println("")
+                .printTitle("Estatisticas com cada heroi");
+            
+            for (String heroi : herois) {
+                out.println("")
+                    .printCentralized(heroi.toUpperCase())
+                    .println("Pontos: " + log.getPontosPorHeroi(heroi))
+                    .println("      " + log.getIndiceDeVitoriaPorHeroi(heroi))
+                    .println("")
+                    .println("Monstro mais derrotado :  " + log.MostroMaisDerrotadoPorHeroi(heroi))
+                    .println("Monstro mais perigoso  :  " + log.MostroMaisVitoriosoContraHeroi(heroi))
+                    .println("")
+                    .println("");
+            }
+
+            out.Close();
+            scan.nextLine();
     }
 
     private static BattleLog[] getLog(String nickname) {
