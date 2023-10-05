@@ -11,6 +11,7 @@ public class Program {
         Console out = new Console(90);
 
         UserLogs userLog = getUserLog(out, scan);
+        displayLog(userLog, out, scan);
         
     }
 
@@ -42,12 +43,11 @@ public class Program {
         return new UserLogs(userLog, nickname);
     }
 
-    public static void displayLog(UserLogs log, battleLogs, Console out, Scanner scan){
+    public static void displayLog(UserLogs log, Console out, Scanner scan){
             out.Clear()
-                .printTitle("Bem vindo " + battleLogs[0].nickname)
+                .printTitle("Bem vindo " + log.getNickname())
                 .println("")
                 .println("")
-                .println(" Digite o seu nickname : _ _ _")
                 .Close();
     }
 
