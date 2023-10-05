@@ -87,7 +87,7 @@ public class UserLogs {
                 vitorias.add(0);
         });
 
-        return " Vitorias: " + vitorias.size() + "     Derrotas: " + Logs.length;
+        return " Vitorias: " + vitorias.size() + "     Derrotas: " + (Logs.length - vitorias.size());
     }
 
     public String getDiaMaisJogado() {
@@ -116,7 +116,7 @@ public class UserLogs {
     public String getPontosPorHeroi(String heroi) {
         int pontos = 0;
         for (BattleLog battleLog : Logs) {
-            if (battleLog.getHeroi() == heroi) {
+            if (battleLog.getHeroi().equals(heroi)) {
                 pontos += Pontos(battleLog);
             }
         }
