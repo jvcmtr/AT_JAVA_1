@@ -1,4 +1,5 @@
 package utils;
+
 import java.util.function.Consumer;
 
 public class Console {
@@ -6,20 +7,18 @@ public class Console {
     public int Spacing = 3;
     public String Embelishment = " --== ";
 
-    public Console(int width, int spacing){
+    public Console(int width, int spacing) {
         Spacing = spacing;
         Width = width;
     }
 
-    public Console(int width){
+    public Console(int width) {
         Width = width;
     }
 
-    public Console(String spacing){
+    public Console(String spacing) {
         Spacing = spacing.length();
     }
-
-
 
     public Console Clear() {
         System.out.println("\n\n\n");
@@ -28,35 +27,35 @@ public class Console {
         return this;
     }
 
-    public static void TrueClear(){
+    public static void TrueClear() {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
 
-    public Console Open(){
+    public Console Open() {
         printTopBorder();
         return this;
     }
 
-    public Console Close(){
+    public Console Close() {
         printBottomBorder();
         return this;
     }
 
     public Console println(String s) {
 
-        forLinesIn(s, (ln) ->{
+        forLinesIn(s, (ln) -> {
             printBorderIn();
             System.out.print(ln);
-            int remainingSpace = Width-ln.length();
+            int remainingSpace = Width - ln.length();
             for (int i = 0; i < remainingSpace; i++) {
                 System.out.print(" ");
             }
-            printBorderOut();           
+            printBorderOut();
         });
         return this;
     }
 
-    public Console printTitle(String title){
+    public Console printTitle(String title) {
 
         String[] lines = GetTitleLines(title);
         for (String s : lines) {
@@ -67,46 +66,45 @@ public class Console {
         return this;
     }
 
-    public Console printCentralized(String s){
-        forLinesIn(s, (ln) ->{
+    public Console printCentralized(String s) {
+        forLinesIn(s, (ln) -> {
             printBorderIn();
             ln = Centralize(ln);
             System.out.print(ln);
-            int remainingSpace = Width-ln.length();
+            int remainingSpace = Width - ln.length();
             for (int i = 0; i < remainingSpace; i++) {
                 System.out.print(" ");
             }
-            printBorderOut();           
+            printBorderOut();
         });
         return this;
     }
 
-
-    private String Centralize(String s){
-        int midPoint = (int) ( s.length()) /2;
-        int d = ((int) Width/2) - midPoint;
+    private String Centralize(String s) {
+        int midPoint = (int) (s.length()) / 2;
+        int d = ((int) Width / 2) - midPoint;
         for (int i = 0; i < d; i++) {
-            s = " "+s;
+            s = " " + s;
         }
         return s;
     }
 
-    private void forLinesIn(String s, Consumer<String> lambda){
+    private void forLinesIn(String s, Consumer<String> lambda) {
         String[] ar = splitLines(s, Width);
         for (String line : ar) {
             lambda.accept(line);
         }
     }
 
-    private static String[] splitLines(String s, int width){
-        if (s.length() <= width){
-            return new String[]{s};
+    private static String[] splitLines(String s, int width) {
+        if (s.length() <= width) {
+            return new String[] { s };
         }
 
         String line = "";
         int split = width;
         for (int i = width; i >= 0; i--) {
-            if(s.charAt(i)==' '){
+            if (s.charAt(i) == ' ') {
                 split = i;
                 break;
             }
@@ -114,10 +112,10 @@ public class Console {
         line = s.substring(0, split);
         String[] remain = splitLines(s.substring(split), width);
 
-        String[] r = new String[ 1+ remain.length];
+        String[] r = new String[1 + remain.length];
         r[0] = line;
         for (int i = 1; i < r.length; i++) {
-            r[i] = remain[i-1];
+            r[i] = remain[i - 1];
         }
         return r;
     }
@@ -184,15 +182,15 @@ public class Console {
         System.out.println(Spacing(" ") + "│▓▒░");
     }
 
-    private String[] GetTitleLines(String s){
+    private String[] GetTitleLines(String s) {
         String title = "";
         for (char c : s.toUpperCase().toCharArray()) {
             title += "a" + c;
         }
-        
+
         title += "a";
-        int d = Width-(Embelishment.length()*2) ;
-        String[] split = splitLines(title, d );
+        int d = Width - (Embelishment.length() * 2);
+        String[] split = splitLines(title, d);
 
         for (int i = 0; i < split.length; i++) {
             String line = split[i];
@@ -205,12 +203,48 @@ public class Console {
         return split;
     }
 
-    private String reverseString(String s){
+    private String reverseString(String s) {
         String r = "";
         int len = s.length();
-        for (int i = 1; i <= len; i++) {  
-            r += s.charAt(len-i);
+        for (int i = 1; i <= len; i++) {
+            r += s.charAt(len - i);
         }
         return r;
+    }
+
+    public Console printLogo() {
+        String[] s = new String[] {
+                "                           .-.      ",
+                "                          {{#}}     ",
+                "          {}               8@8      ",
+                "        .::::.             888      ",
+                "    @\\\\/W\\/\\/W\\//@         8@8      ",
+                "     \\\\/^\\/\\/^\\//     _    )8(    _ ",
+                "      \\_O_{}_O_/     (@)__/8@8\\__(@)",
+                " ____________________ `~\"-=):(=-\"~` ",
+                "|<><><>  |  |  <><><>|     |.|      ",
+                "|<>      |  |      <>|     |S|      ",
+                "|<>      |  |      <>|     |'|      ",
+                "|<>   .--------.   <>|     |.|      ",
+                "|     |   ()   |     |     |P|      ",
+                "|_____| (O\\/O) |_____|     |'|      ",
+                "|     \\   /\\   /     |     |.|      ",
+                "|------\\  \\/  /------|     |U|      ",
+                "|       '.__.'       |     |'|      ",
+                "|        |  |        |     |.|      ",
+                ":        |  |        :     |N|      ",
+                " \\       |  |       /      |'|      ",
+                "  \\<>    |  |    <>/       |.|      ",
+                "   \\<>   |  |   <>/        |K|      ",
+                "    `\\<> |  | <>/'         |'|      ",
+                "jgs   `-.|__|.-`           \\ /      ",
+                "                            ^        "
+        };
+
+        for (String string : s) {
+            printCentralized(string);
+        }
+
+        return this;
     }
 }

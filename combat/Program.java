@@ -14,59 +14,60 @@ public class Program {
         Console out = new Console(90);
         String input = "";
 
-        while(true){
+        while (true) {
 
             Character boneco = InitCharacter(scan, out);
             String s = runRandomBattle(boneco);
             AddToLog(s, boneco);
 
             out.Open()
-                .printCentralized("Digite ESC para sair")
-                .Close();
+                    .printLogo()
+                    .printCentralized("Digite ESC para sair")
+                    .Close();
+
             input = scan.nextLine();
             out.TrueClear();
 
-            if(input.equals("ESC"))
+            if (input.equals("ESC"))
                 break;
         }
     }
 
-    public static String runRandomBattle(Character c){
+    public static String runRandomBattle(Character c) {
         BaseClass[] criaturas = CombatHelper.getIniciativa(c.getHeroi(), CombatHelper.getRandomMonster());
         int rounds = 0;
-        while(true){
-            rounds ++;
-            if(criaturas[0].getFatorDeAtaque() > criaturas[1].getFatorDeDefesa())
-                criaturas[0].attack( criaturas[1] );
+        while (true) {
+            rounds++;
+            if (criaturas[0].getFatorDeAtaque() > criaturas[1].getFatorDeDefesa())
+                criaturas[0].attack(criaturas[1]);
 
-            if(criaturas[1].isDead())
+            if (criaturas[1].isDead())
                 break;
 
-            criaturas = new BaseClass[]{
-                criaturas[1], 
-                criaturas[0]
+            criaturas = new BaseClass[] {
+                    criaturas[1],
+                    criaturas[0]
             };
         }
 
-        if(criaturas[0] == c.getHeroi()){
-            return LocalDate.now() + "," + criaturas[0].getName() + ",GANHOU,"+criaturas[1].getName() + "," + rounds;
+        if (criaturas[0] == c.getHeroi()) {
+            return LocalDate.now() + "," + criaturas[0].getName() + ",GANHOU," + criaturas[1].getName() + "," + rounds;
         }
 
-
-        return LocalDate.now() + "," + criaturas[1].getName() + ",PERDEU,"+criaturas[0].getName() + "," + rounds;  
+        return LocalDate.now() + "," + criaturas[1].getName() + ",PERDEU," + criaturas[0].getName() + "," + rounds;
     }
 
-    public static void AddToLog(String s, Character c){
-        String filename = c.getNickname()+".csv";
+    public static void AddToLog(String s, Character c) {
+        String filename = c.getNickname() + ".csv";
         RepositoryHelper.Save(s, filename);
     }
 
-    public static Character InitCharacter(Scanner scan, Console out ){
+    public static Character InitCharacter(Scanner scan, Console out) {
         boolean run = false;
         String nickname = "";
         BaseClass charClass = null;
 
-        while(!run){
+        while (!run) {
             nickname = EscolherNickname(scan, out);
             charClass = EscolherClasse(nickname, scan, out);
             run = Confirmar(charClass, nickname, scan, out);
@@ -76,31 +77,30 @@ public class Program {
         return c;
     }
 
-
-    public static String EscolherNickname(Scanner scan, Console out){
+    public static String EscolherNickname(Scanner scan, Console out) {
         out.Clear()
-            .printTitle("bem Vindo ao medieval Battle !")
-            .println("")
-            .println("")
-            .println(" Digite o seu nickname : _ _ _")
-            .Close();
+                .printTitle("bem Vindo ao medieval Battle !")
+                .println("")
+                .println("")
+                .println(" Digite o seu nickname : _ _ _")
+                .Close();
         return scan.nextLine();
-    }   
-    
-    public static BaseClass EscolherClasse(String nickname, Scanner scan, Console out){
+    }
+
+    public static BaseClass EscolherClasse(String nickname, Scanner scan, Console out) {
         String erro = "";
         BaseClass charClass = null;
         BaseClass[] classes = CombatHelper.availableClasses();
 
-        while(charClass == null){
+        while (charClass == null) {
             out.Clear()
-                .printTitle("bem Vindo ao medieval Battle !")
-                .println("")
-                .println("") 
-                .println("+ Digite o seu nickname : " + nickname)
-                .println("")
-                .println( "+ Digite o numero da classe que deseja escolher : ");
-            
+                    .printTitle("bem Vindo ao medieval Battle !")
+                    .println("")
+                    .println("")
+                    .println("+ Digite o seu nickname : " + nickname)
+                    .println("")
+                    .println("+ Digite o numero da classe que deseja escolher : ");
+
             for (int i = 0; i < classes.length; i++) {
                 out.println("    [" + i + "] " + classes[i].getDetails());
             }
@@ -115,35 +115,34 @@ public class Program {
             } catch (IndexOutOfBoundsException e) {
                 erro = "# ERRO : Digite um numero entre 0 e " + classes.length;
                 continue;
-            }
-            catch(InputMismatchException e ){
+            } catch (InputMismatchException e) {
                 erro = "# ERRO : Você deve digitar um numero";
                 continue;
             }
         }
         return charClass;
-    }   
+    }
 
-    public static boolean Confirmar(BaseClass charClass, String nickname, Scanner scan, Console out){
+    public static boolean Confirmar(BaseClass charClass, String nickname, Scanner scan, Console out) {
         String inp = "";
-        while( !inp.equals("y") && !inp.equals("n")){
+        while (!inp.equals("y") && !inp.equals("n")) {
             out.Clear()
-                .printCentralized("+ Confirme seu personagem :")
-                .println("")
-                .println("    nickname : " + nickname)
-                .println("    classe : ")
-                .println("     "+ charClass.getDetails() )
-                .println("")
-                .printCentralized("[y] OK  /  [n] VOLTAR");
+                    .printCentralized("+ Confirme seu personagem :")
+                    .println("")
+                    .println("    nickname : " + nickname)
+                    .println("    classe : ")
+                    .println("     " + charClass.getDetails())
+                    .println("")
+                    .printCentralized("[y] OK  /  [n] VOLTAR");
 
-            if (!inp.equals(""))   
+            if (!inp.equals(""))
                 out.println("# ERRO : [" + inp + "] Não é uma entrada valida ");
-            
+
             out.Close();
+            out.Clear();
             inp = scan.nextLine();
         }
         return inp.equals("y");
     }
-
 
 }
