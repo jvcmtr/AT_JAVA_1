@@ -13,51 +13,51 @@ import java.nio.file.Paths;
 public abstract class RepositoryHelper {
     static private String BasePath = "temp";
 
-    public static void Save(String info, String filename){
+    public static void Save(String info, String filename) {
         Path path = Paths.get(BasePath, filename).toAbsolutePath();
 
-        if(Files.exists(path)){
+        if (Files.exists(path)) {
             info += "\n";
-            try{
+            try {
                 Files.write(path, info.getBytes(), StandardOpenOption.APPEND);
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(" ### ERRO !!!");
                 System.out.println(e.getMessage());
             }
-        }
-        else{
-            try{
+        } else {
+            try {
+                Files.createDirectory(Paths.get(BasePath).toAbsolutePath());
                 Files.write(path, "".getBytes(), StandardOpenOption.CREATE);
-            } catch (Exception e){
-                
+            } catch (Exception e) {
+
                 System.out.println(" # ERRO !!!");
                 System.out.println(e);
             }
 
             Save(info, filename);
         }
-        
+
     }
 
-    public static String[] Load(String filename){
+    public static String[] Load(String filename) {
         filename += ".csv";
         Path path = Paths.get(BasePath, filename).toAbsolutePath();
         ArrayList<String> lines = new ArrayList<>();
 
-        try{		
-            InputStream stream = Files.newInputStream( path );			
-            InputStreamReader ireader = new InputStreamReader(stream);		
-            BufferedReader reader = new BufferedReader( ireader );				
-                
-                reader.lines().forEach((s)->{
-                    lines.add(s);
-                });									
-                									
-            stream.close();										
-            ireader.close();											
-            reader.close();	
-        } catch (Exception e){
-            return new String[]{};
+        try {
+            InputStream stream = Files.newInputStream(path);
+            InputStreamReader ireader = new InputStreamReader(stream);
+            BufferedReader reader = new BufferedReader(ireader);
+
+            reader.lines().forEach((s) -> {
+                lines.add(s);
+            });
+
+            stream.close();
+            ireader.close();
+            reader.close();
+        } catch (Exception e) {
+            return new String[] {};
         }
 
         return lines.toArray(new String[lines.size()]);
