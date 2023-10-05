@@ -12,12 +12,23 @@ public class Program {
     public static void main(String args[]) {
         Scanner scan = new Scanner(System.in);
         Console out = new Console(90);
+        String input = "";
 
-        Character boneco = InitCharacter(scan, out);
-        String s = runRandomBattle(boneco);
-        AddToLog(s, boneco);
-                
+        while(true){
 
+            Character boneco = InitCharacter(scan, out);
+            String s = runRandomBattle(boneco);
+            AddToLog(s, boneco);
+
+            out.Open()
+                .printCentralized("Digite ESC para sair")
+                .Close();
+            input = scan.nextLine();
+            out.TrueClear();
+
+            if(input.equals("ESC"))
+                break;
+        }
     }
 
     public static String runRandomBattle(Character c){

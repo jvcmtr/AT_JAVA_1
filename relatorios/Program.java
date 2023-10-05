@@ -1,6 +1,5 @@
 package relatorios;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -95,13 +94,13 @@ public class Program {
     private static BattleLog[] getLog(String nickname) {
         String[] lines = RepositoryHelper.Load(nickname);
         ArrayList<BattleLog> logs = new ArrayList<BattleLog>();
-        
+
         for (String line : lines) {
             String[] props = line.split(",");
             BattleLog b = new BattleLog( 
                 Utils.dtFromString(props[0]), 
                 props[1], 
-                (props[2]=="GANHOU"), 
+                (props[2].equals("GANHOU")), 
                 props[3], 
                 Integer.parseInt(props[4]) );
             logs.add(b);

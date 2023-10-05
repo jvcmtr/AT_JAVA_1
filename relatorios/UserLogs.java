@@ -3,10 +3,11 @@ package relatorios;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import javax.swing.RowFilter.Entry;
 
 public class UserLogs {
     private BattleLog[] Logs;
@@ -126,13 +127,19 @@ public class UserLogs {
     }
 
     public String getIndiceDeVitoriaPorHeroi( String heroi ){
-        ArrayList<Integer> vitorias = new ArrayList<>();
-        forEachHeroi(heroi,  (log) ->{
-            if(log.isGanhou())
-                vitorias.add(0);
-        });
+        int v = 0;
+        int d = 0;
+        for (BattleLog battleLog : Logs) {
+            if(battleLog.getHeroi().equals(heroi)){
+                if(battleLog.isGanhou())
+                    v++;
+                else
+                    d++;
+            }
+        }
 
-        return "Vitorias: " + vitorias.size() + "   / Derrotas: " + Logs.length;
+
+        return "Vitorias: " + v + "   / Derrotas: " + d;
     }
 
     public String MostroMaisDerrotadoPorHeroi( String heroi){
@@ -161,7 +168,7 @@ public class UserLogs {
     }
 
     public String MostroMaisVitoriosoContraHeroi( String heroi){
-        Map<String, Integer> monstros = new HashMap<String, Integer>();
+         Map<String, Integer> monstros = new HashMap<String, Integer>();
         forEachHeroi(heroi, (log)->{
             if(!log.isGanhou()){
                 String m = log.getMonstro();
@@ -204,16 +211,16 @@ public class UserLogs {
 
     private void forEachHeroi(String Heroi, Consumer<BattleLog>c){
         for (BattleLog battleLog : Logs) {
-            if(battleLog.getHeroi() == Heroi){
+            if(battleLog.getHeroi().equals(Heroi)){
                 c.accept(battleLog);
             }
         }
     }
 
     private int Pontos(BattleLog b){
-        if (!b.isGanhou()){
-            return 0;
+        if (b.isGanhou()){
+            return 100-b.getRodadas();
         }
-        return 100-b.getRodadas();
+        return 0;
     }
 }
