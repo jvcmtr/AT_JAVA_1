@@ -2,8 +2,6 @@ package relatorios;
 
 import java.time.LocalDate;
 
-import combat.builds.BaseClass;
-
 public class BattleLog {
     private LocalDate DataDaPartida;
     private String Heroi;
@@ -34,7 +32,4 @@ public class BattleLog {
     public int getRodadas() {
         return Rodadas;
     }
-
-
-
 }

@@ -1,8 +1,12 @@
 package relatorios;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import utils.Console;
+import utils.RepositoryHelper;
+import utils.Utils;
 
 public class Program {
     public static void main(String[] args){
@@ -52,6 +56,20 @@ public class Program {
     }
 
     private static BattleLog[] getLog(String nickname) {
-        return null;
+        String[] lines = RepositoryHelper.Load(nickname);
+        ArrayList<BattleLog> logs = new ArrayList<BattleLog>();
+        
+        for (String line : lines) {
+            String[] props = line.split(",");
+            BattleLog b = new BattleLog( 
+                Utils.dtFromString(props[0]), 
+                props[1], 
+                (props[2]=="GANHOU"), 
+                props[3], 
+                Integer.parseInt(props[4]) );
+            logs.add(b);
+        }
+
+        return logs.toArray(new BattleLog[logs.size()]);
     }
 }

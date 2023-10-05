@@ -1,8 +1,15 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+
+import relatorios.BattleLog;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -33,5 +40,27 @@ public abstract class RepositoryHelper {
             Save(info, filename);
         }
         
+    }
+
+    public static String[] Load(String filename){
+
+        ArrayList<String> lines = new ArrayList<>();
+        Path path = Paths.get(BasePath, filename).toAbsolutePath();
+        
+        try{		
+            InputStream stream = Files.newInputStream( path );			
+            InputStreamReader ireader = new InputStreamReader(stream);		
+            BufferedReader reader = new BufferedReader( ireader );				
+                
+                lines.add(reader.readLine());										
+                									
+            stream.close();										
+            ireader.close();											
+            reader.close();	
+        } catch (Exception e){
+            return new String[]{};
+        }
+        
+        return lines.toArray(new String[lines.size()]);
     }
 }
