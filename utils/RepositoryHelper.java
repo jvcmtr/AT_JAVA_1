@@ -43,9 +43,9 @@ public abstract class RepositoryHelper {
     }
 
     public static String[] Load(String filename){
-
-        ArrayList<String> lines = new ArrayList<>();
+        filename += ".csv";
         Path path = Paths.get(BasePath, filename).toAbsolutePath();
+        ArrayList<String> lines = new ArrayList<>();
         
         try{		
             InputStream stream = Files.newInputStream( path );			
@@ -60,7 +60,7 @@ public abstract class RepositoryHelper {
         } catch (Exception e){
             return new String[]{};
         }
-        
+
         return lines.toArray(new String[lines.size()]);
     }
 }

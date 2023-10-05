@@ -50,7 +50,8 @@ public class Program {
     public static void displayLog(UserLogs log, Console out, Scanner scan){
             out.Clear()
                 .printTitle("Bem vindo " + log.getNickname())
-                .println("")
+                .println("Heroi mais jogado : " + log.getHeroiMaisJogado())
+                .println("Monstro mais Enfrentado : " + log.getHeroiMaisJogado())
                 .println("")
                 .Close();
     }
